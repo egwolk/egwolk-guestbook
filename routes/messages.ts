@@ -2,10 +2,11 @@ import { Hono } from "hono";
 import { z } from "zod";
 import { zValidator } from '@hono/zod-validator';
 
-type Message = {
-    id: number;
-    message: string;
-}
+
+const messageSchema = z.object({
+    id: z.number().int().positive().min(1),
+    message: z.string().min(1).max(100),
+})
 
 const testMessages: Message[] = [
     { id: 1, message: "Hello, world!" },
@@ -13,17 +14,17 @@ const testMessages: Message[] = [
     { id: 3, message: "TypeScript is awesome!" },
 ]
 
-const createMessageSchema = z.object({
-    message: z.string().min(1).max(100),
-})
+type Message = z.infer<typeof messageSchema>
+
+const createPostSchema = messageSchema.omit({ id: true })
 
 export const messagesRoute = new Hono()
 .get("/", (c) => {
     return c.json({messages: testMessages})
 })
-.post("/", zValidator("json", createMessageSchema), async (c) => {
+.post("/", zValidator("json", createPostSchema), async (c) => {
     const data = await c.req.valid("json")
-    const message = createMessageSchema.parse(data)
+    const message = createPostSchema.parse(data)
     console.log(message)
     testMessages.push({...message, id: testMessages.length + 1})
     c.status(201)
