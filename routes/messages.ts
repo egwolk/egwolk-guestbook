@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { z } from "zod";
 
 type Message = {
     id: number;
@@ -11,14 +12,19 @@ const testMessages: Message[] = [
     { id: 3, message: "TypeScript is awesome!" },
 ]
 
+const createMessageSchema = z.object({
+    message: z.string().min(1).max(100),
+})
+
 export const messagesRoute = new Hono()
 .get("/", (c) => {
     return c.json({messages: testMessages})
 })
 .post("/", async (c) => {
     const data = await c.req.json()
-    console.log(data)
-    return c.json(data)
+    const message = createMessageSchema.parse(data)
+    console.log(message)
+    return c.json(message)
 })
 // .delete
 // .put
