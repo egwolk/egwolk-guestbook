@@ -15,7 +15,7 @@ type Message = {
 
 function App() {
   const [messages, setMessages] = useState<Message[]>([])
-  useEffect(() => {
+  useEffect(() => { //for development
     async function fetchMessages() {
       const res = await fetch("/api/messages")
       const data = await res.json()
