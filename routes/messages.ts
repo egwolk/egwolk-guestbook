@@ -2,13 +2,13 @@ import { Hono } from "hono";
 
 type Message = {
     id: number;
-    text: string;
+    message: string;
 }
 
-const testMessages = [
-    { id: 1, text: "Hello, world!" },
-    { id: 2, text: "Hono is great!" },
-    { id: 3, text: "TypeScript is awesome!" },
+const testMessages: Message[] = [
+    { id: 1, message: "Hello, world!" },
+    { id: 2, message: "Hono is great!" },
+    { id: 3, message: "TypeScript is awesome!" },
 ]
 
 export const messagesRoute = new Hono()
