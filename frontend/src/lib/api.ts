@@ -1,5 +1,5 @@
 import { hc } from "hono/client"
-import type { ApiRoutes } from "../../../backend/app"
+import type { ApiRoutes } from "@backend/app"
 
 const client = hc<ApiRoutes>('/')
 
