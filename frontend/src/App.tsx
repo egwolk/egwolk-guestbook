@@ -6,20 +6,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { hc } from "hono/client"
+import type { ApiRoutes } from "../../backend/app"
 
-
-type Message = {
-  id: number
-  message: string
-}
+const client = hc<ApiRoutes>('/')
 
 function App() {
-  const [messages, setMessages] = useState<Message[]>([])
+  const [totalMessages, setTotalMessages] = useState(0)
   useEffect(() => { //for development
     async function fetchMessages() {
-      const res = await fetch("/api/messages")
+      const res = await client.api.messages["total-messages"].$get()
       const data = await res.json()
-      setMessages(data.messages)
+      setTotalMessages(data.total)
     }
     fetchMessages()
   }, [])
@@ -33,9 +31,7 @@ function App() {
         </CardHeader>
         <CardContent>
           <ul>
-            {messages.map(msg => (
-              <li key={msg.id}>{msg.message}</li>
-            ))}
+            {totalMessages}
           </ul>
         </CardContent>
       </Card>

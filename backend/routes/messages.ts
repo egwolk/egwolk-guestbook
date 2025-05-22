@@ -30,6 +30,10 @@ export const messagesRoute = new Hono()
     c.status(201)
     return c.json(message)
 })
+.get("/total-messages", (c) => {
+    const total = testMessages.length
+    return c.json({total})
+})
 .get("/:id{[0-9]+}", (c) => {
     const id = Number.parseInt(c.req.param("id"))
     const message = testMessages.find(message => message.id === id)
