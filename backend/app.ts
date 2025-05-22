@@ -15,6 +15,7 @@ app.get('/test', (c) => {
 // })
 app.route('/api/messages', messagesRoute)
 
+// for deployment
 app.get('*', serveStatic({ root: './frontend/dist' }))
 app.get('*', serveStatic({ path: './frontend/dist/index.html' }))
 export default app
