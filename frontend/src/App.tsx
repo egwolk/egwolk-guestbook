@@ -1,5 +1,5 @@
 // import TestNoTSQ from "./testNoTSQ";
-import TestTSQ from "./testTSQ";
+import TestTSQ from "./tests/testTSQ";
 
 function App() {
   return (

@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { api } from './lib/api'
+import { api } from '../lib/api'
 
 function TestNoTSQ() {
   const [totalMessages, setTotalMessages] = useState(0)

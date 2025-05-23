@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { useQuery } from '@tanstack/react-query'
-import { api } from './lib/api'
+import { api } from '../lib/api'
 
 
 async function getTotalMessages() {
