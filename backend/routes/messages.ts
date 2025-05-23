@@ -30,7 +30,8 @@ export const messagesRoute = new Hono()
     c.status(201)
     return c.json(message)
 })
-.get("/total-messages", (c) => {
+.get("/total-messages", async (c) => { // for testing
+    await new Promise(resolve => setTimeout(resolve, 3000)) // Simulate a delay
     const total = testMessages.length
     return c.json({total})
 })
