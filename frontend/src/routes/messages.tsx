@@ -59,7 +59,7 @@ function Messages() {
             )) 
             : data?.messages.map((message) => (
                 <TableRow key={message.id}>
-                  <TableCell className="font-medium">{message.message}</TableCell>
+                  <TableCell className="font-medium whitespace-pre-wrap">{message.message}</TableCell>
                 </TableRow>
               ))}
         </TableBody>

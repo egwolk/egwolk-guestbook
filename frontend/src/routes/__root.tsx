@@ -17,10 +17,10 @@ function NavBar() {
         <Link to="/totalMsg" className="[&.active]:font-bold"> {/*for testing*/}
           Total Messages
         </Link>{' '}
-        <Link to="/messages" className="[&.active]:font-bold"> {/*for testing*/}
+        <Link to="/messages" className="[&.active]:font-bold">
           Messages
         </Link>{' '}
-        <Link to="/createMessage" className="[&.active]:font-bold"> {/*for testing*/}
+        <Link to="/createMessage" className="[&.active]:font-bold">   
           Create Message
         </Link>{' '}
       </div>
