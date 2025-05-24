@@ -12,11 +12,15 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
+import { Skeleton } from "@/components/ui/skeleton"
+
+
 export const Route = createFileRoute('/messages')({
   component: Messages,
 })
 
 async function getAllMessages() {
+  await new Promise(r => setTimeout(r, 3000)) // Simulate network delay
   const res = await api.messages.$get()
   if (!res.ok) {
     throw new Error('Network response was not ok')
@@ -46,7 +50,13 @@ function Messages() {
         </TableHeader>
         <TableBody>
           {isPending 
-            ? "Loading..." 
+            ? Array(1).fill(0).map((_, i) => (
+              <TableRow key={i}>
+                <TableCell className="font-medium">
+                  <Skeleton className="w-[100px] h-[20px] rounded-full" />
+                </TableCell>
+              </TableRow>
+            )) 
             : data?.messages.map((message) => (
                 <TableRow key={message.id}>
                   <TableCell className="font-medium">{message.message}</TableCell>
