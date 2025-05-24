@@ -12,6 +12,8 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as TotalMsgImport } from './routes/totalMsg'
+import { Route as MessagesImport } from './routes/messages'
+import { Route as CreateMessageImport } from './routes/createMessage'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 
@@ -20,6 +22,18 @@ import { Route as IndexImport } from './routes/index'
 const TotalMsgRoute = TotalMsgImport.update({
   id: '/totalMsg',
   path: '/totalMsg',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const MessagesRoute = MessagesImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CreateMessageRoute = CreateMessageImport.update({
+  id: '/createMessage',
+  path: '/createMessage',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -53,6 +67,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
+    '/createMessage': {
+      id: '/createMessage'
+      path: '/createMessage'
+      fullPath: '/createMessage'
+      preLoaderRoute: typeof CreateMessageImport
+      parentRoute: typeof rootRoute
+    }
+    '/messages': {
+      id: '/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof MessagesImport
+      parentRoute: typeof rootRoute
+    }
     '/totalMsg': {
       id: '/totalMsg'
       path: '/totalMsg'
@@ -68,12 +96,16 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/createMessage': typeof CreateMessageRoute
+  '/messages': typeof MessagesRoute
   '/totalMsg': typeof TotalMsgRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/createMessage': typeof CreateMessageRoute
+  '/messages': typeof MessagesRoute
   '/totalMsg': typeof TotalMsgRoute
 }
 
@@ -81,27 +113,33 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/createMessage': typeof CreateMessageRoute
+  '/messages': typeof MessagesRoute
   '/totalMsg': typeof TotalMsgRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/totalMsg'
+  fullPaths: '/' | '/about' | '/createMessage' | '/messages' | '/totalMsg'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/totalMsg'
-  id: '__root__' | '/' | '/about' | '/totalMsg'
+  to: '/' | '/about' | '/createMessage' | '/messages' | '/totalMsg'
+  id: '__root__' | '/' | '/about' | '/createMessage' | '/messages' | '/totalMsg'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  CreateMessageRoute: typeof CreateMessageRoute
+  MessagesRoute: typeof MessagesRoute
   TotalMsgRoute: typeof TotalMsgRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  CreateMessageRoute: CreateMessageRoute,
+  MessagesRoute: MessagesRoute,
   TotalMsgRoute: TotalMsgRoute,
 }
 
@@ -117,6 +155,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
+        "/createMessage",
+        "/messages",
         "/totalMsg"
       ]
     },
@@ -125,6 +165,12 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/createMessage": {
+      "filePath": "createMessage.tsx"
+    },
+    "/messages": {
+      "filePath": "messages.tsx"
     },
     "/totalMsg": {
       "filePath": "totalMsg.tsx"
