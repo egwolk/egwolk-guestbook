@@ -23,6 +23,9 @@ function NavBar() {
         <Link to="/createMessage" className="[&.active]:font-bold">   
           Create Message
         </Link>{' '}
+        <Link to="/profile" className="[&.active]:font-bold">   
+          profile
+        </Link>{' '}
       </div>
   )
 }

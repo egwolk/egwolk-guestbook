@@ -1,4 +1,4 @@
-import {createKindeServerClient, GrantType, type SessionManager, type UserType } from "@kinde-oss/kinde-typescript-sdk";
+import {createKindeServerClient, GrantType, type SessionManager, type UserType} from "@kinde-oss/kinde-typescript-sdk";
 import { type Context } from "hono";
 import { getCookie, setCookie, deleteCookie } from "hono/cookie";
 import {  createMiddleware } from 'hono/factory'
