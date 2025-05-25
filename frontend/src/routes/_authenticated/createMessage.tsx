@@ -10,7 +10,7 @@ import type { AnyFieldApi } from '@tanstack/react-form'
 
 import { api } from '@/lib/api'
 
-export const Route = createFileRoute('/createMessage')({
+export const Route = createFileRoute('/_authenticated/createMessage')({
   component: CreateMessage,
 })
 
