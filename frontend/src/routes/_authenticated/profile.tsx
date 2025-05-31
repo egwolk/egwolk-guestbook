@@ -15,6 +15,7 @@ function Profile() {
   return (
     <>
       <p>Hello {data.user.preferred_username}</p>
+      <a href="/api/logout">Logout</a>
     </>
   )
 }   
