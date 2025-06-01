@@ -31,11 +31,11 @@ function CreateMessage() {
       message: '',
     },
     onSubmit: async ({ value, formApi }) => {
-      await new Promise(r => setTimeout(r, 3000)) // Simulate network delay
+      // await new Promise(r => setTimeout(r, 3000)) // Simulate network delay
       // Do something with form data
       const res = await api.messages.$post({ json: value })
       if (!res.ok) {
-        throw new Error('Network response was not ok')
+        throw new Error('server error')
       }
       console.log(value)
       formApi.reset()
