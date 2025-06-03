@@ -1,5 +1,5 @@
 import { text, pgTable, serial, index, timestamp } from "drizzle-orm/pg-core";
-import { createSelectSchema, createInsertSchema  } from 'drizzle-zod';
+import { createSelectSchema, createInsertSchema } from 'drizzle-zod';
 
 export const messages = pgTable(
     'messages', 
@@ -14,5 +14,8 @@ export const messages = pgTable(
     ]
 )
 
-export const insertMessagesSchema = createInsertSchema(messages);
+export const insertMessagesSchema = createInsertSchema(messages, {
+    message: (schema) => schema
+    .min(1, "should be more than 1 character" ),
+});
 export const selectMessagesSchema = createSelectSchema(messages);
