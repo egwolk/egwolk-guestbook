@@ -1,5 +1,5 @@
 import { text, pgTable, serial, index, timestamp } from "drizzle-orm/pg-core";
-
+import { createSelectSchema, createInsertSchema  } from 'drizzle-zod';
 
 export const messages = pgTable(
     'messages', 
@@ -13,3 +13,6 @@ export const messages = pgTable(
         index('name_idx').on(messages.userId),
     ]
 )
+
+export const insertMessagesSchema = createInsertSchema(messages);
+export const selectMessagesSchema = createSelectSchema(messages);
