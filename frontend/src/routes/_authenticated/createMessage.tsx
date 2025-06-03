@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
 
 
 import { useForm } from '@tanstack/react-form'
@@ -57,14 +58,16 @@ function CreateMessage() {
         <form.Field
             name="message"
             validators={{
-              onChange: createMessageSchema.shape.message,
+              onChange: (value) => {
+                createMessageSchema.shape.message.safeParse(value)
+              },
             }}
             children={(field) => {
               // Avoid hasty abstractions. Render props are great!
               return (
                 <>
                   <Label className='mb-1' htmlFor={field.name}>Message</Label>
-                  <Input
+                  <Textarea
                     id={field.name}
                     name={field.name}
                     value={field.state.value}
