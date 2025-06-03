@@ -4,7 +4,7 @@ import { zValidator } from '@hono/zod-validator';
 import { getUser } from "../kinde";
 
 import { db } from "../db"
-import { messages as messagesTable } from "../db/schema/messages"
+import { messages as messagesTable, insertMessagesSchema } from "../db/schema/messages"
 import { eq, desc, count, and } from "drizzle-orm"
 
 import { createMessageSchema } from "../sharedTypes";
@@ -31,10 +31,15 @@ export const messagesRoute = new Hono()
     const message = await c.req.valid("json")
     const user = c.var.user
 
-    const result = await db.insert(messagesTable).values({
+    const validatedMessage = insertMessagesSchema.parse({
         ...message,
         userId: user.id
-    }).returning()
+    })
+
+    const result = await db
+        .insert(messagesTable)
+        .values(validatedMessage)
+        .returning()
 
     // const message = createPostSchema.parse(data)
     console.log(message)
