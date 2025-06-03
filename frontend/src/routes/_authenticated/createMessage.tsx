@@ -10,6 +10,8 @@ import type { AnyFieldApi } from '@tanstack/react-form'
 
 import { api } from '@/lib/api'
 
+import { createMessageSchema } from '@backend/sharedTypes'
+
 export const Route = createFileRoute('/_authenticated/createMessage')({
   component: CreateMessage,
 })
@@ -54,6 +56,9 @@ function CreateMessage() {
       >
         <form.Field
             name="message"
+            validators={{
+              onChange: createMessageSchema.shape.message,
+            }}
             children={(field) => {
               // Avoid hasty abstractions. Render props are great!
               return (
