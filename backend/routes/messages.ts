@@ -7,6 +7,7 @@ import { db } from "../db"
 import { messages as messagesTable, insertMessagesSchema } from "../db/schema/messages"
 import { eq, desc, count, and } from "drizzle-orm"
 
+import { z } from "zod";
 import { createMessageSchema } from "../sharedTypes";
 
 // const testMessages: Message[] = [
@@ -40,6 +41,7 @@ export const messagesRoute = new Hono()
         .insert(messagesTable)
         .values(validatedMessage)
         .returning()
+        .then((res) => res[0])
 
     // const message = createPostSchema.parse(data)
     console.log(message)
