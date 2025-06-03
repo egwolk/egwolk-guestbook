@@ -4,13 +4,13 @@
     "": {
       "name": "egwolk-guestbook",
       "dependencies": {
-        "@hono/zod-validator": "^0.5.0",
+        "@hono/zod-validator": "^0.7.0",
         "@kinde-oss/kinde-typescript-sdk": "^2.10.1",
         "drizzle-orm": "^0.44.1",
         "drizzle-zod": "^0.8.2",
         "hono": "^4.7.9",
         "postgres": "^3.4.7",
-        "zod": "^3.25.13",
+        "zod": "^3.25.49",
       },
       "devDependencies": {
         "@flydotio/dockerfile": "^0.7.10",
@@ -81,7 +81,7 @@
 
     "@flydotio/dockerfile": ["@flydotio/dockerfile@0.7.10", "", { "dependencies": { "chalk": "^5.4.1", "diff": "^7.0.0", "ejs": "^3.1.10", "inquirer": "^12.4.1", "shell-quote": "^1.8.2", "yargs": "^17.7.2" }, "bin": { "dockerfile": "index.js" } }, "sha512-dTXqBjCl7nFmnhlyeDjjPtX+sdfYBWFH9PUKNqAYttvBiczKcYXxr7/0A0wZ+g1FB1tmMzsOzedgr6xap/AB9g=="],
 
-    "@hono/zod-validator": ["@hono/zod-validator@0.5.0", "", { "peerDependencies": { "hono": ">=3.9.0", "zod": "^3.19.1" } }, "sha512-ds5bW6DCgAnNHP33E3ieSbaZFd5dkV52ZjyaXtGoR06APFrCtzAsKZxTHwOrJNBdXsi0e5wNwo5L4nVEVnJUdg=="],
+    "@hono/zod-validator": ["@hono/zod-validator@0.7.0", "", { "peerDependencies": { "hono": ">=3.9.0", "zod": "^3.25.0" } }, "sha512-qe2ZE6sHFE98dcUrbYMtS3bAV8hqcCOflykvZga2S7XhmNSZzT+dIz4OuMILsjLHkJw9JMn912/dB7dQOmuPvg=="],
 
     "@inquirer/checkbox": ["@inquirer/checkbox@4.1.6", "", { "dependencies": { "@inquirer/core": "^10.1.11", "@inquirer/figures": "^1.0.11", "@inquirer/type": "^3.0.6", "ansi-escapes": "^4.3.2", "yoctocolors-cjs": "^2.1.2" }, "peerDependencies": { "@types/node": ">=18" }, "optionalPeers": ["@types/node"] }, "sha512-62u896rWCtKKE43soodq5e/QcRsA22I+7/4Ov7LESWnKRO6BVo2A1DFLDmXL9e28TB0CfHc3YtkbPm7iwajqkg=="],
 
@@ -245,7 +245,7 @@
 
     "yoctocolors-cjs": ["yoctocolors-cjs@2.1.2", "", {}, "sha512-cYVsTjKl8b+FrnidjibDWskAv7UKOfcwaVZdp/it9n1s9fU3IkgDbhdIRKCW4JDsAlECJY0ytoVPT3sK6kideA=="],
 
-    "zod": ["zod@3.25.13", "", {}, "sha512-Q8mvk2iWi7rTDfpQBsu4ziE7A6AxgzJ5hzRyRYQkoV3A3niYsXVwDaP1Kbz3nWav6S+VZ6k2OznFn8ZyDHvIrg=="],
+    "zod": ["zod@3.25.49", "", {}, "sha512-JMMPMy9ZBk3XFEdbM3iL1brx4NUSejd6xr3ELrrGEfGb355gjhiAWtG3K5o+AViV/3ZfkIrCzXsZn6SbLwTR8Q=="],
 
     "@esbuild-kit/core-utils/esbuild": ["esbuild@0.18.20", "", { "optionalDependencies": { "@esbuild/android-arm": "0.18.20", "@esbuild/android-arm64": "0.18.20", "@esbuild/android-x64": "0.18.20", "@esbuild/darwin-arm64": "0.18.20", "@esbuild/darwin-x64": "0.18.20", "@esbuild/freebsd-arm64": "0.18.20", "@esbuild/freebsd-x64": "0.18.20", "@esbuild/linux-arm": "0.18.20", "@esbuild/linux-arm64": "0.18.20", "@esbuild/linux-ia32": "0.18.20", "@esbuild/linux-loong64": "0.18.20", "@esbuild/linux-mips64el": "0.18.20", "@esbuild/linux-ppc64": "0.18.20", "@esbuild/linux-riscv64": "0.18.20", "@esbuild/linux-s390x": "0.18.20", "@esbuild/linux-x64": "0.18.20", "@esbuild/netbsd-x64": "0.18.20", "@esbuild/openbsd-x64": "0.18.20", "@esbuild/sunos-x64": "0.18.20", "@esbuild/win32-arm64": "0.18.20", "@esbuild/win32-ia32": "0.18.20", "@esbuild/win32-x64": "0.18.20" }, "bin": { "esbuild": "bin/esbuild" } }, "sha512-ceqxoedUrcayh7Y7ZX6NdbbDzGROiyVBgC4PriJThBKSVPWnnFHZAkfI1lJT8QFkOwH4qOS2SJkS4wvpGl8BpA=="],
 
