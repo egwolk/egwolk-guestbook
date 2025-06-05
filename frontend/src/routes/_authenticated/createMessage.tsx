@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { Input } from "@/components/ui/input"
+// import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -9,7 +9,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { useForm } from '@tanstack/react-form'
 import type { AnyFieldApi } from '@tanstack/react-form'
 
-import { api } from '@/lib/api'
+import { createMessage, getAllMessagesQueryOptions, loadingCreateMessageQueryOptions } from '@/lib/api'
+import { useQueryClient } from '@tanstack/react-query'
 
 import { createMessageSchema } from '@backend/sharedTypes'
 
@@ -29,19 +30,37 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
 }
 
 function CreateMessage() {
+  const queryClient = useQueryClient()
   const form = useForm({
     defaultValues: {
       message: '',
     },
     onSubmit: async ({ value, formApi }) => {
+      const existingMessages = await queryClient.ensureQueryData(getAllMessagesQueryOptions)
       // await new Promise(r => setTimeout(r, 3000)) // Simulate network delay
       // Do something with form data
-      const res = await api.messages.$post({ json: value })
-      if (!res.ok) {
-        throw new Error('server error')
-      }
-      console.log(value)
+      
       formApi.reset()
+
+      queryClient.setQueryData(loadingCreateMessageQueryOptions.queryKey, {message: value})
+
+      try{
+        const newMessage = await createMessage({ value })
+        queryClient.setQueryData(getAllMessagesQueryOptions.queryKey, ({
+        ...existingMessages,
+        messages: [newMessage, ...existingMessages.messages],
+      }))
+      }catch (e) {
+        console.error('Error creating message:', e)
+      }finally {
+        queryClient.setQueryData(loadingCreateMessageQueryOptions.queryKey, {})
+      }
+      
+      
+
+      
+      console.log(value)
+      
     },
   })
 

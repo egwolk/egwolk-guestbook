@@ -16,6 +16,6 @@ export const messages = pgTable(
 
 export const insertMessagesSchema = createInsertSchema(messages, {
     message: (schema) => schema
-    .min(1, "should be more than 1 character" ),
+    .min(1),
 });
 export const selectMessagesSchema = createSelectSchema(messages);
