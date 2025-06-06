@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import { insertMessagesSchema } from "./db/schema/messages";
 
 export const createMessageSchema = insertMessagesSchema.omit({
