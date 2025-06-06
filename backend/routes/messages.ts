@@ -7,7 +7,6 @@ import { db } from "../db"
 import { messages as messagesTable, insertMessagesSchema } from "../db/schema/messages"
 import { eq, desc, count, and } from "drizzle-orm"
 
-import { z } from "zod";
 import { createMessageSchema } from "../sharedTypes";
 
 // const testMessages: Message[] = [
