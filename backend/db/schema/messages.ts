@@ -1,6 +1,6 @@
 import { text, pgTable, serial, index, timestamp } from "drizzle-orm/pg-core";
 import { createSelectSchema, createInsertSchema } from 'drizzle-zod';
-
+import { z } from "zod/v4";
 export const messages = pgTable(
     'messages', 
     {
@@ -15,7 +15,8 @@ export const messages = pgTable(
 )
 
 export const insertMessagesSchema = createInsertSchema(messages, {
-    message: (schema) => schema
-    .min(1),
+    message: z
+    .string()
+    .min(1)
 });
 export const selectMessagesSchema = createSelectSchema(messages);
