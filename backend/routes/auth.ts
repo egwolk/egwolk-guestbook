@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { kindeClient, sessionManager } from "../kinde";
 import { getUser } from "../kinde";
 
-import { z } from "zod";
+import { z } from "zod/v4";
 
 const userSchema = z.object({
   picture: z.string().optional(),
