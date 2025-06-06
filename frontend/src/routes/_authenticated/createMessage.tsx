@@ -4,6 +4,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { toast } from "sonner"
 
 
 import { useForm } from '@tanstack/react-form'
@@ -37,7 +38,7 @@ function CreateMessage() {
     },
     onSubmit: async ({ value, formApi }) => {
       const existingMessages = await queryClient.ensureQueryData(getAllMessagesQueryOptions)
-      // await new Promise(r => setTimeout(r, 3000)) // Simulate network delay
+      //await new Promise(r => setTimeout(r, 3000)) // Simulate network delay
       // Do something with form data
       
       formApi.reset()
@@ -46,12 +47,17 @@ function CreateMessage() {
 
       try{
         const newMessage = await createMessage({ value })
-        queryClient.setQueryData(getAllMessagesQueryOptions.queryKey, ({
-        ...existingMessages,
-        messages: [newMessage, ...existingMessages.messages],
-      }))
+        queryClient.setQueryData(getAllMessagesQueryOptions.queryKey, {
+          ...existingMessages,
+          messages: [newMessage, ...existingMessages.messages],
+        })
+        toast("Message Created", {
+          description: `Message created successfully!`,
+        })
       }catch (e) {
-        console.error('Error creating message:', e)
+        toast("Error", {
+          description: `An error occurred while creating the message: ${e instanceof Error ? e.message : 'Unknown error'}`,
+        })
       }finally {
         queryClient.setQueryData(loadingCreateMessageQueryOptions.queryKey, {})
       }
@@ -79,7 +85,7 @@ function CreateMessage() {
             validators={{
               onChange: (value) => {
                 createMessageSchema.shape.message.safeParse(value)
-              },
+              }
             }}
             children={(field) => {
               // Avoid hasty abstractions. Render props are great!
