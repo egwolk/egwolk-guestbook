@@ -4,7 +4,7 @@ import { zValidator } from '@hono/zod-validator';
 import { getUser } from "../kinde";
 
 import { db } from "../db"
-import { messages as messagesTable, insertMessagesSchema } from "../db/schema/messages"
+import { messages as messagesTable, insertMessagesSchema, updateMessagesSchema } from "../db/schema/messages"
 import { eq, desc, count, and } from "drizzle-orm"
 
 import { createMessageSchema } from "../sharedTypes";
@@ -101,4 +101,25 @@ export const messagesRoute = new Hono()
     // const deletedMessage = testMessages.splice(index, 1)[0]
     return c.json({message: message}) 
 })
-// .put
+.put("/:id{[0-9]+}", getUser, zValidator("json", updateMessagesSchema), async (c) => {
+    const id = Number.parseInt(c.req.param("id"))
+    const user = c.var.user
+    const message = await c.req.valid("json")
+
+    const validatedMessage = updateMessagesSchema.parse({
+        ...message,
+        userId: user.id
+    })
+
+    const updated = await db
+        .update(messagesTable)
+        .set(validatedMessage)
+        .where(and(eq(messagesTable.userId, user.id), eq(messagesTable.id, id)))
+        .returning()
+        .then(res => res[0])
+
+    if (!updated) {
+        return c.notFound()
+    }
+    return c.json({message: updated})
+})
