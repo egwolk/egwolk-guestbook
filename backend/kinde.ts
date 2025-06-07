@@ -48,18 +48,51 @@ type Env = {
 }
 
 
-export const getUser = createMiddleware<Env>(async (c, next) => {
+// export const getUser = createMiddleware<Env>(async (c, next) => {
+//   try {
+//     const manager = sessionManager(c)
+//     const isAuthenticated = await kindeClient.isAuthenticated(manager)
+//     if (!isAuthenticated) {
+//         return c.json({ error: "Not authenticated" }, 401)
+//     }
+//     const user = await kindeClient.getUserProfile(manager)
+//     c.set('user', user)
+//     await next()
+//   } catch (e) {
+//     console.error(e)
+//     return c.json({ error: "Not authenticated" }, 401)
+//   }
+// })
+
+
+//for testing purposes only, to allow Bearer token in Authorization header
+ export const getUser = createMiddleware<Env>(async (c, next) => {
   try {
-    const manager = sessionManager(c)
-    const isAuthenticated = await kindeClient.isAuthenticated(manager)
-    if (!isAuthenticated) {
-        return c.json({ error: "Not authenticated" }, 401)
+    let manager = sessionManager(c);
+
+    // Check for Bearer token in Authorization header
+    const authHeader = c.req.header("authorization");
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      const token = authHeader.replace("Bearer ", "");
+      // Override getSessionItem to return the token for 'access_token'
+      manager = {
+        ...manager,
+        async getSessionItem(key: string) {
+          if (key === "access_token") return token;
+          return getCookie(c, key);
+        }
+      };
     }
-    const user = await kindeClient.getUserProfile(manager)
-    c.set('user', user)
-    await next()
+
+    const isAuthenticated = await kindeClient.isAuthenticated(manager);
+    if (!isAuthenticated) {
+      return c.json({ error: "Not authenticated" }, 401);
+    }
+    const user = await kindeClient.getUserProfile(manager);
+    c.set('user', user);
+    await next();
   } catch (e) {
-    console.error(e)
-    return c.json({ error: "Not authenticated" }, 401)
+    console.error(e);
+    return c.json({ error: "Not authenticated" }, 401);
   }
 })
