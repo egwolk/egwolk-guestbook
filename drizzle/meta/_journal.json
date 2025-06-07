@@ -15,6 +15,13 @@
       "when": 1748772693978,
       "tag": "0001_bored_slyde",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1749301257579,
+      "tag": "0002_luxuriant_sunset_bain",
+      "breakpoints": true
     }
   ]
 }
