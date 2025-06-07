@@ -89,10 +89,23 @@ function Messages() {
                     day: "2-digit",
                     hour: "2-digit",
                     minute: "2-digit",
-                    hour12: false,
+                    hour12: true,
                   })} <br/>
+                  {message.modifiedAt !== message.createdAt && (
+                    <>
+                      edited: &nbsp;
+                      {new Date(message.modifiedAt).toLocaleString(undefined, {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                      })} <br/>
+                    </>
+                  )}
                   {message.message}
-                  <ExpenseDeleteButton id={message.id}/>
+                  <MessageDeleteButton id={message.id}/>
                 </TableCell>
               </TableRow>
             ))
@@ -103,7 +116,7 @@ function Messages() {
   </div>
 } 
 
-function ExpenseDeleteButton({ id }:  {id: number }) {
+function MessageDeleteButton({ id }:  {id: number }) {
   const queryClient = useQueryClient()
   const mutation = useMutation({
   mutationFn: deleteMessage,
