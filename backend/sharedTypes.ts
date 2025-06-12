@@ -1,5 +1,5 @@
 import { z } from "zod/v4";
-import { insertMessagesSchema, updateMessagesSchema } from "./db/schema/messages";
+import { insertMessagesSchema, updateMessagesSchema, selectMessageSchema } from "./db/schema/messages";
 
 export const createMessageSchema = insertMessagesSchema.omit({
   id: true,
@@ -16,3 +16,4 @@ export const editMessageSchema = updateMessagesSchema.omit({
 
 export type CreateMessage = z.infer<typeof createMessageSchema>;
 export type EditMessage = z.infer<typeof editMessageSchema>;
+export type SelectMessage = z.infer<typeof selectMessageSchema>;
