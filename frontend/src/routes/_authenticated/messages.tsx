@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { 
   userQueryOptions, 
@@ -17,7 +17,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-import { Trash } from "lucide-react"
+import { Trash, Pencil } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 import { Skeleton } from "@/components/ui/skeleton"
@@ -106,6 +106,7 @@ function Messages() {
                   )}
                   {message.message}
                   <MessageDeleteButton id={message.id}/>
+                  <MessageEditButton id={message.id}/>
                 </TableCell>
               </TableRow>
             ))
@@ -115,6 +116,22 @@ function Messages() {
     </pre>
   </div>
 } 
+
+
+function MessageEditButton({ id }: { id: number }) {
+  const navigate = useNavigate()
+  return (
+    <>
+      <Button 
+      onClick={() => navigate({ to: `/message/${id}/edit` })}
+      variant="outline" size="icon" 
+      className="size-8"
+      >
+        <Pencil />
+      </Button>
+    </>
+  )
+}
 
 function MessageDeleteButton({ id }:  {id: number }) {
   const queryClient = useQueryClient()
