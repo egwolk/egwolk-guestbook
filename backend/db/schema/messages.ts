@@ -25,4 +25,4 @@ export const updateMessagesSchema = createUpdateSchema(messages, {
     .string()
     .min(1)
 });
-export const selectMessagesSchema = createSelectSchema(messages);
+export const selectMessageSchema = createSelectSchema(messages);
