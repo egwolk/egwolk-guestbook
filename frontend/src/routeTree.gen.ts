@@ -18,6 +18,7 @@ import { Route as AuthenticatedTotalMsgImport } from './routes/_authenticated/to
 import { Route as AuthenticatedProfileImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedMessagesImport } from './routes/_authenticated/messages'
 import { Route as AuthenticatedCreateMessageImport } from './routes/_authenticated/createMessage'
+import { Route as AuthenticatedMessageIdEditImport } from './routes/_authenticated/message.$id.edit'
 
 // Create/Update Routes
 
@@ -60,6 +61,14 @@ const AuthenticatedCreateMessageRoute = AuthenticatedCreateMessageImport.update(
   {
     id: '/createMessage',
     path: '/createMessage',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any,
+)
+
+const AuthenticatedMessageIdEditRoute = AuthenticatedMessageIdEditImport.update(
+  {
+    id: '/message/$id/edit',
+    path: '/message/$id/edit',
     getParentRoute: () => AuthenticatedRoute,
   } as any,
 )
@@ -117,6 +126,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTotalMsgImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/message/$id/edit': {
+      id: '/_authenticated/message/$id/edit'
+      path: '/message/$id/edit'
+      fullPath: '/message/$id/edit'
+      preLoaderRoute: typeof AuthenticatedMessageIdEditImport
+      parentRoute: typeof AuthenticatedImport
+    }
   }
 }
 
@@ -127,6 +143,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedTotalMsgRoute: typeof AuthenticatedTotalMsgRoute
+  AuthenticatedMessageIdEditRoute: typeof AuthenticatedMessageIdEditRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
@@ -134,6 +151,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedMessagesRoute: AuthenticatedMessagesRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedTotalMsgRoute: AuthenticatedTotalMsgRoute,
+  AuthenticatedMessageIdEditRoute: AuthenticatedMessageIdEditRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
@@ -148,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/messages': typeof AuthenticatedMessagesRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/totalMsg': typeof AuthenticatedTotalMsgRoute
+  '/message/$id/edit': typeof AuthenticatedMessageIdEditRoute
 }
 
 export interface FileRoutesByTo {
@@ -158,6 +177,7 @@ export interface FileRoutesByTo {
   '/messages': typeof AuthenticatedMessagesRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/totalMsg': typeof AuthenticatedTotalMsgRoute
+  '/message/$id/edit': typeof AuthenticatedMessageIdEditRoute
 }
 
 export interface FileRoutesById {
@@ -169,6 +189,7 @@ export interface FileRoutesById {
   '/_authenticated/messages': typeof AuthenticatedMessagesRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/totalMsg': typeof AuthenticatedTotalMsgRoute
+  '/_authenticated/message/$id/edit': typeof AuthenticatedMessageIdEditRoute
 }
 
 export interface FileRouteTypes {
@@ -181,6 +202,7 @@ export interface FileRouteTypes {
     | '/messages'
     | '/profile'
     | '/totalMsg'
+    | '/message/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -190,6 +212,7 @@ export interface FileRouteTypes {
     | '/messages'
     | '/profile'
     | '/totalMsg'
+    | '/message/$id/edit'
   id:
     | '__root__'
     | '/'
@@ -199,6 +222,7 @@ export interface FileRouteTypes {
     | '/_authenticated/messages'
     | '/_authenticated/profile'
     | '/_authenticated/totalMsg'
+    | '/_authenticated/message/$id/edit'
   fileRoutesById: FileRoutesById
 }
 
@@ -238,7 +262,8 @@ export const routeTree = rootRoute
         "/_authenticated/createMessage",
         "/_authenticated/messages",
         "/_authenticated/profile",
-        "/_authenticated/totalMsg"
+        "/_authenticated/totalMsg",
+        "/_authenticated/message/$id/edit"
       ]
     },
     "/about": {
@@ -258,6 +283,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/totalMsg": {
       "filePath": "_authenticated/totalMsg.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/message/$id/edit": {
+      "filePath": "_authenticated/message.$id.edit.tsx",
       "parent": "/_authenticated"
     }
   }
