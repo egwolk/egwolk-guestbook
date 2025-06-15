@@ -16,6 +16,7 @@ import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthenticatedTotalMsgImport } from './routes/_authenticated/totalMsg'
 import { Route as AuthenticatedProfileImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedMessagestestImport } from './routes/_authenticated/messagestest'
 import { Route as AuthenticatedMessagesImport } from './routes/_authenticated/messages'
 import { Route as AuthenticatedCreateMessageImport } from './routes/_authenticated/createMessage'
 import { Route as AuthenticatedMessageIdEditImport } from './routes/_authenticated/message.$id.edit'
@@ -48,6 +49,12 @@ const AuthenticatedTotalMsgRoute = AuthenticatedTotalMsgImport.update({
 const AuthenticatedProfileRoute = AuthenticatedProfileImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
+const AuthenticatedMessagestestRoute = AuthenticatedMessagestestImport.update({
+  id: '/messagestest',
+  path: '/messagestest',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 
@@ -112,6 +119,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMessagesImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/messagestest': {
+      id: '/_authenticated/messagestest'
+      path: '/messagestest'
+      fullPath: '/messagestest'
+      preLoaderRoute: typeof AuthenticatedMessagestestImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/profile': {
       id: '/_authenticated/profile'
       path: '/profile'
@@ -141,6 +155,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteChildren {
   AuthenticatedCreateMessageRoute: typeof AuthenticatedCreateMessageRoute
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRoute
+  AuthenticatedMessagestestRoute: typeof AuthenticatedMessagestestRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedTotalMsgRoute: typeof AuthenticatedTotalMsgRoute
   AuthenticatedMessageIdEditRoute: typeof AuthenticatedMessageIdEditRoute
@@ -149,6 +164,7 @@ interface AuthenticatedRouteChildren {
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedCreateMessageRoute: AuthenticatedCreateMessageRoute,
   AuthenticatedMessagesRoute: AuthenticatedMessagesRoute,
+  AuthenticatedMessagestestRoute: AuthenticatedMessagestestRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedTotalMsgRoute: AuthenticatedTotalMsgRoute,
   AuthenticatedMessageIdEditRoute: AuthenticatedMessageIdEditRoute,
@@ -164,6 +180,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/createMessage': typeof AuthenticatedCreateMessageRoute
   '/messages': typeof AuthenticatedMessagesRoute
+  '/messagestest': typeof AuthenticatedMessagestestRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/totalMsg': typeof AuthenticatedTotalMsgRoute
   '/message/$id/edit': typeof AuthenticatedMessageIdEditRoute
@@ -175,6 +192,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/createMessage': typeof AuthenticatedCreateMessageRoute
   '/messages': typeof AuthenticatedMessagesRoute
+  '/messagestest': typeof AuthenticatedMessagestestRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/totalMsg': typeof AuthenticatedTotalMsgRoute
   '/message/$id/edit': typeof AuthenticatedMessageIdEditRoute
@@ -187,6 +205,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/_authenticated/createMessage': typeof AuthenticatedCreateMessageRoute
   '/_authenticated/messages': typeof AuthenticatedMessagesRoute
+  '/_authenticated/messagestest': typeof AuthenticatedMessagestestRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/totalMsg': typeof AuthenticatedTotalMsgRoute
   '/_authenticated/message/$id/edit': typeof AuthenticatedMessageIdEditRoute
@@ -200,6 +219,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/createMessage'
     | '/messages'
+    | '/messagestest'
     | '/profile'
     | '/totalMsg'
     | '/message/$id/edit'
@@ -210,6 +230,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/createMessage'
     | '/messages'
+    | '/messagestest'
     | '/profile'
     | '/totalMsg'
     | '/message/$id/edit'
@@ -220,6 +241,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/_authenticated/createMessage'
     | '/_authenticated/messages'
+    | '/_authenticated/messagestest'
     | '/_authenticated/profile'
     | '/_authenticated/totalMsg'
     | '/_authenticated/message/$id/edit'
@@ -261,6 +283,7 @@ export const routeTree = rootRoute
       "children": [
         "/_authenticated/createMessage",
         "/_authenticated/messages",
+        "/_authenticated/messagestest",
         "/_authenticated/profile",
         "/_authenticated/totalMsg",
         "/_authenticated/message/$id/edit"
@@ -275,6 +298,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/messages": {
       "filePath": "_authenticated/messages.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/messagestest": {
+      "filePath": "_authenticated/messagestest.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/profile": {
