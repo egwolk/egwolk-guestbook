@@ -4,7 +4,8 @@ import {
   userQueryOptions, 
   getAllMessagesQueryOptions, 
   loadingCreateMessageQueryOptions,
-  deleteMessage
+  deleteMessage,
+  loadingEditMessageQueryOptions
 } from '../../lib/api'
 
 import {
@@ -34,6 +35,7 @@ function Messages() {
   const { isPending: isMessagesPending, error: messagesError, data: messagesData } = useQuery(getAllMessagesQueryOptions)
   const { isPending: isUsersPending, error: usersError, data: usersData } = useQuery(userQueryOptions)
   const { data: loadingCreateMessage } = useQuery(loadingCreateMessageQueryOptions)
+  const { data: loadingEditMessage } = useQuery(loadingEditMessageQueryOptions)
   // if (isPending) return 'Loading...'
 
   // if (error) return 'An error has occurred: ' + error.message
@@ -82,19 +84,12 @@ function Messages() {
             messagesData?.messages.map((message) => (
               <TableRow key={message.id}>
                 <TableCell className="font-medium whitespace-pre-wrap">
-                  {userMap[message.userId]?.preferred_username ?? "Unknown"} &nbsp;
-                  {new Date(message.createdAt).toLocaleString(undefined, {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                  })} <br/>
-                  {message.modifiedAt !== message.createdAt && (
+                  {loadingEditMessage?.id === message.id ? (
+                    <Skeleton className="w-[100px] h-[20px] rounded-full" />
+                  ) : (
                     <>
-                      edited: &nbsp;
-                      {new Date(message.modifiedAt).toLocaleString(undefined, {
+                      {userMap[message.userId]?.preferred_username ?? "Unknown"} &nbsp;
+                      {new Date(message.createdAt).toLocaleString(undefined, {
                         year: "numeric",
                         month: "2-digit",
                         day: "2-digit",
@@ -102,11 +97,24 @@ function Messages() {
                         minute: "2-digit",
                         hour12: true,
                       })} <br/>
+                      {message.modifiedAt !== message.createdAt && (
+                        <>
+                          edited: &nbsp;
+                          {new Date(message.modifiedAt).toLocaleString(undefined, {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true,
+                          })} <br/>
+                        </>
+                      )}
+                      {message.message}
+                      <MessageDeleteButton id={message.id}/>
+                      <MessageEditButton id={message.id}/>
                     </>
                   )}
-                  {message.message}
-                  <MessageDeleteButton id={message.id}/>
-                  <MessageEditButton id={message.id}/>
                 </TableCell>
               </TableRow>
             ))
