@@ -37,7 +37,25 @@ export const getAllMessagesQueryOptions = queryOptions({
     queryFn: getAllMessages,
     staleTime: 1000 * 60 * 5,
 })
+export async function getMessage({ id }: { id: number }): Promise<SelectMessage> {
+  await new Promise(r => setTimeout(r, 3000)) // Simulate network delay
+  const res = await api.messages[":id{[0-9]+}"].$get({
+    param: { id: id.toString() }
+  })
+  if (!res.ok) {
+    throw new Error('Network response was not ok')
+  }
+  const data = await res.json() as { message: SelectMessage }
+  return data.message
+} 
 
+export function getMessageQueryOptions(id: number) {
+  return {
+    queryKey: ['get-message', id],
+    queryFn: () => getMessage({ id }),
+    staleTime: 1000 * 60 * 5,
+  }
+}
 
 
 export async function createMessage({ value }: { value: CreateMessage }) {
@@ -72,7 +90,7 @@ export async function editMessage({ id, value }: { id: number; value: EditMessag
   return updatedMessage
 }
 
-export const  loadingEditMessageQueryOptions = queryOptions<{ id?: number }>({
+export const  loadingEditMessageQueryOptions = queryOptions<{id?: number}>({
     queryKey: ['loading-edit-message'],
     queryFn: async () => {
       return {}

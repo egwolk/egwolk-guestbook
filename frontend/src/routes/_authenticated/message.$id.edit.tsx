@@ -1,6 +1,11 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useQueryClient } from '@tanstack/react-query'
-import { loadingEditMessageQueryOptions, editMessage, getAllMessagesQueryOptions } from '@/lib/api'
+import { useQueryClient, useQuery } from '@tanstack/react-query'
+import { 
+  loadingEditMessageQueryOptions, 
+  editMessage, 
+  getAllMessagesQueryOptions,
+  getMessageQueryOptions
+} from '@/lib/api'
 import { editMessageSchema } from '@backend/sharedTypes'
 import { useForm } from '@tanstack/react-form'
 import type { AnyFieldApi } from '@tanstack/react-form'
@@ -9,6 +14,7 @@ import { toast } from "sonner"
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
+// import { skeleton } from '@/components/ui/skeleton'
 
 export const Route = createFileRoute('/_authenticated/message/$id/edit')({
   component: EditMessage,
@@ -32,9 +38,10 @@ function EditMessage() {
   const { id } = Route.useParams()
   const navigate = useNavigate();
   const queryClient = useQueryClient()
+  const { data: messageData, isLoading } = useQuery(getMessageQueryOptions(Number(id)))
   const form  = useForm({
-    defaultValues: {
-      message: '',
+     defaultValues: {
+      message: messageData?.message ?? '',
     },
     onSubmit: async ({ value, formApi }) => {
       const existingMessages = await queryClient.ensureQueryData(getAllMessagesQueryOptions)
@@ -74,6 +81,7 @@ function EditMessage() {
     
   })
   
+  
   // const { data: messageData } = useQuery(getMessageQueryOptions(Number(id)))
   // const {data: userData } = useQuery(userQueryOptions)
 
@@ -82,6 +90,11 @@ function EditMessage() {
   // const userMap = userData?.user
   //   ? { [userData.user.id]: userData.user }
   //   : {}
+
+  // if (isLoading) {
+  //   return <div>Loading...</div>
+  // }
+
 
   return (
     <div className="p-2">
@@ -107,17 +120,20 @@ function EditMessage() {
           children={(field) => {
             // Avoid hasty abstractions. Render props are great!
             return (
-              <>
+                <>
                 <Label className='mb-1' htmlFor={field.name}>Message</Label>
                 <Textarea
                   id={field.name}
                   name={field.name}
-                  value={field.state.value}
+                  value={isLoading ? 'loading' : field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
+                  className={isLoading ? ' animate-pulse' : ''}
+                  disabled={isLoading}
+                  readOnly={isLoading}
                 />
                 <FieldInfo field={field} />
-              </>
+                </>
             )
           }}
         /> 
