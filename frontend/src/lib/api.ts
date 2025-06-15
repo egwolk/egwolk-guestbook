@@ -1,7 +1,7 @@
 import { hc } from "hono/client"
 import type { ApiRoutes } from "@backend/app"
 import { queryOptions } from "@tanstack/react-query"
-import type { CreateMessage, SelectMessage } from "@backend/sharedTypes"
+import type { CreateMessage, SelectMessage, EditMessage } from "@backend/sharedTypes"
 
 const client = hc<ApiRoutes>('/')
 
@@ -37,25 +37,7 @@ export const getAllMessagesQueryOptions = queryOptions({
     queryFn: getAllMessages,
     staleTime: 1000 * 60 * 5,
 })
-export async function getMessage({ id }: { id: number }): Promise<SelectMessage> {
-  // await new Promise(r => setTimeout(r, 3000)) // Simulate network delay
-  const res = await api.messages[":id{[0-9]+}"].$get({
-    param: { id: id.toString() }
-  })
-  if (!res.ok) {
-    throw new Error('Network response was not ok')
-  }
-  const data = await res.json() as { message: SelectMessage }
-  return data.message
-} 
 
-export function getMessageQueryOptions(id: number) {
-  return {
-    queryKey: ['get-message', id],
-    queryFn: () => getMessage({ id }),
-    staleTime: 1000 * 60 * 5,
-  }
-}
 
 
 export async function createMessage({ value }: { value: CreateMessage }) {
@@ -71,6 +53,27 @@ export async function createMessage({ value }: { value: CreateMessage }) {
 
 export const  loadingCreateMessageQueryOptions = queryOptions<{message?: CreateMessage}>({
     queryKey: ['loading-create-message'],
+    queryFn: async () => {
+      return {}
+    },
+    staleTime: Infinity,
+}) 
+export async function editMessage({ id, value }: { id: number; value: EditMessage }) {
+  await new Promise(r => setTimeout(r, 3000)) // Simulate network delay
+  //throw new Error('Server Error') // for testing
+  const res = await api.messages[":id{[0-9]+}"].$put({
+    param: { id: id.toString() },
+    json: value,
+  })
+  if (!res.ok) {
+    throw new Error('Server Error')
+  }
+  const updatedMessage = await res.json() as SelectMessage
+  return updatedMessage
+}
+
+export const  loadingEditMessageQueryOptions = queryOptions<{ id?: number }>({
+    queryKey: ['loading-edit-message'],
     queryFn: async () => {
       return {}
     },
