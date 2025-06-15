@@ -121,5 +121,5 @@ export const messagesRoute = new Hono()
     if (!updated) {
         return c.notFound()
     }
-    return c.json({message: updated})
+    return c.json(updated)
 })
